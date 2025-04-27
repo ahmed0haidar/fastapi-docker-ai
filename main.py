@@ -3,6 +3,8 @@ from PIL import Image
 import io
 import torch
 import torchvision.transforms as transforms
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -19,7 +21,13 @@ app.add_middleware(
 )
 
 
+# Serve static files (optional: if you have CSS, JS, images)
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
+@app.get("/", response_class=HTMLResponse)
+async def read_root():
+    with open("index.html", "r") as f:
+        return f.read()
 
 
 # Load the TorchScript model
