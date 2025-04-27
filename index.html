@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Image Prediction</title>
+</head>
+<body>
+    <h1>Upload an Image for Prediction</h1>
+    <form id="uploadForm">
+        <input type="file" id="fileInput" name="file" accept="image/*" required>
+        <button type="submit">Predict</button>
+    </form>
+
+    <h2 id="result"></h2>
+
+    <script>
+        const form = document.getElementById('uploadForm');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const response = await fetch('http://127.0.0.1:8000/predict', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+            document.getElementById('result').innerText = `Prediction: ${data.prediction}`;
+        });
+    </script>
+</body>
+</html>
