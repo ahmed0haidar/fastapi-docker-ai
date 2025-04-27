@@ -21,8 +21,6 @@ app.add_middleware(
 )
 
 
-# Serve static files (optional: if you have CSS, JS, images)
-app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/", response_class=HTMLResponse)
 async def read_root():
